@@ -1,10 +1,10 @@
 /*************************************************************************
-                           TrajetCompose  -  description
+                           TrajetCompose  -  Trajet composé de sous-trajets
                              -------------------
     début                : 13/11/2017
     copyright            : (C) 2017 par Théo Lorette-Froidevaux
 			   Anatolii Gasiuk
-    e-mail               : $EMAIL$
+    e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <TrajetCompose> (fichier TrajetCompose.cpp) ------------
@@ -46,29 +46,28 @@ const char* TrajetCompose::getVilleDepart() const
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nb ) : nbTrajets(nb)
 {
-//#ifdef MAP
+#ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose>" << endl;
-//#endif
-	Trajet** newListeTrajets = new Trajet*[nb];
+#endif
+	Trajet** listeTrajets = new Trajet*[nb];
 	for(unsigned int i = 0; i < nb; i++)
 	{
-		newListeTrajets[i] = trajets[i];
+		listeTrajets[i] = trajets[i];
 	}
-	listeTrajets = (const Trajet**)newListeTrajets;
-}
+} // ------ Fin de TrajetCompose
 
 
 TrajetCompose::~TrajetCompose ( )
 {
-//#ifdef MAP
+#ifdef MAP
     cout << "Appel au destructeur de <TrajetCompose>" << endl;
-//#endif
+#endif
 	for(int i = 0; i<nbTrajets; i++)
 	{
 		delete listeTrajets[i];
 	}
 	delete [] listeTrajets;
-} //----- Fin de ~Xxx
+} //----- Fin de ~TrajetCompose
 
 
 //------------------------------------------------------------------ PRIVE

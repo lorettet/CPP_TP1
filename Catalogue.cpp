@@ -4,7 +4,7 @@
     début                : 13/11/2017
     copyright            : (C) 2017 par Théo Lorette-Froidevaux
 			   Anatolii Gasiuk
-    e-mail               : $EMAIL$
+    e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <Catalogue> (fichier Catalogue.cpp) ------------
@@ -26,6 +26,8 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 void Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *moyenTransport)
+// Algorithme : Créer un objet TrajetSimple et l'ajoute dans la liste chainée
+//
 {
 	Element* ptr = new Element;
 	ptr->trajet = new TrajetSimple(villeDep,villeArr,moyenTransport);
@@ -43,7 +45,10 @@ void Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *
 	ptrRech->suivant = ptr;
 }
 
-bool Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe)
+void Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe)
+// Algorithme : pour chaque membre de la liste de UnTrajetSimple, créer l'objet TrajetSimple
+// associé. Créer l'objet TrajetCompose à partir des objets TrajetSimple et enfin l'ajoute à
+// la liste chainée.
 {
 	
 	Trajet** lesTrajets = new Trajet*[tailleListe];
@@ -59,16 +64,16 @@ bool Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int ta
 	{
 		listeTrajets.Tete = elem;
 		delete [] lesTrajets;
-		return true;
 	}
 	while(ptr->suivant != NULL)
 		ptr = ptr->suivant;
 	ptr->suivant = elem;
 	delete [] lesTrajets;
-	return true;
 }
 
 void Catalogue::Afficher() const
+// Algorithme : Pour chaque trajet de la liste chainée, affiche le trajet.
+//
 {
 	if(listeTrajets.Tete==NULL)
 	{
@@ -86,6 +91,10 @@ void Catalogue::Afficher() const
 }
 
 void Catalogue::Run()
+// Algorithme : Affiche la liste d'instructions possible, puis exécute l'instruction en fonction
+// des données entrées par l'utilisateur. Se processus est répété tant que l'utiisateur ne quitte
+// pas l'application.
+//
 {
 	cout<<"\t\t\t Bonjour, bienvenue dans le GPS de Timtim."<<endl<<endl;
 	cout<<"###########################################################################################"<<endl;
@@ -109,7 +118,7 @@ void Catalogue::Run()
 		cout<<"\t\t\t\t 1 - Entrer un trajet simple"<<endl;
 		cout<<"\t\t\t\t 2 - Entrer un trajet composée"<<endl;
 		cout<<"\t\t\t\t 3 - Rechercher un trajet"<<endl;
-		cout<<"\t\t\t\t 4 - Quitter l'application"<<endl;
+		cout<<"\t\t\t\t 4 - Quitter l'application"<<endl<<endl;
 
 		cin>>commande;
 		switch (commande)
@@ -167,7 +176,7 @@ void Catalogue::Run()
 				
 				cin>>villeDep;
 				cin>>villeArr;
-				this->recherche(villeDep, villeArr);
+				this->Recherche(villeDep, villeArr);
 				break;
 				
 			case 4:
@@ -177,7 +186,9 @@ void Catalogue::Run()
 	
 }
 
-void Catalogue::recherche (const char *villeDep, const char *villeArr) const
+void Catalogue::Recherche (const char *villeDep, const char *villeArr) const
+// Algorithme : pour chaque trajet de la liste, on l'affiche uniquement si ses
+// villes de départ et d'arrivée correspondent aux paramètres.
 {
 	bool test=false;
 	Element *ptrRech=listeTrajets.Tete;

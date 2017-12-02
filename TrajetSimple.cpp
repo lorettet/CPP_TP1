@@ -3,7 +3,7 @@
                              -------------------
     début                : $DATE$
     copyright            : (C) $YEAR$ par $AUTHOR$
-    e-mail               : $EMAIL$
+    e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) ------------
@@ -19,7 +19,7 @@ using namespace std;
 #include "TrajetSimple.h"
 
 //------------------------------------------------------------- Constantes
-#define TAILLE_CHAINE 20
+
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
@@ -47,15 +47,15 @@ TrajetSimple::TrajetSimple(const char *villeDep, const char *villeArr, const cha
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetSimple>" << endl;
 #endif
-	char* newVilleDepart = new char[TAILLE_CHAINE];
+	char* newVilleDepart = new char[strlen(villeDep)+1];
 	strcpy(newVilleDepart,villeDep);
 	villeDepart = newVilleDepart;
 
-	char* newVilleArrivee = new char[TAILLE_CHAINE];
+	char* newVilleArrivee = new char[strlen(villeArr)+1];
 	strcpy(newVilleArrivee,villeArr);
 	villeArrivee = newVilleArrivee;
 
-	char* newMoyenTransport = new char[TAILLE_CHAINE];
+	char* newMoyenTransport = new char[strlen(moyenTransp)+1];
 	strcpy(newMoyenTransport,moyenTransp);
 	moyenTransport = newMoyenTransport;
 
@@ -68,9 +68,9 @@ TrajetSimple::~TrajetSimple ( )
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetSimple>" << endl;
 #endif
-delete [] villeDepart;
-delete [] villeArrivee;
-delete [] moyenTransport;
+	delete [] villeDepart;
+	delete [] villeArrivee;
+	delete [] moyenTransport;
 } //----- Fin de ~TrajetSimple
 
 
