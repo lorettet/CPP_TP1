@@ -59,15 +59,22 @@ void Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int ta
 	Element* elem = new Element;
 	elem->suivant = NULL;
 	elem->trajet = new TrajetCompose(lesTrajets,tailleListe);
+	cout << "debut test"<<endl;
+	elem->trajet->Afficher();
 	Element* ptr = listeTrajets.Tete;
 	if(ptr==NULL)
 	{
 		listeTrajets.Tete = elem;
-		delete [] lesTrajets;
 	}
-	while(ptr->suivant != NULL)
-		ptr = ptr->suivant;
-	ptr->suivant = elem;
+	else {
+		while(ptr->suivant != NULL)
+			ptr = ptr->suivant;
+		ptr->suivant = elem;
+	}
+	for(unsigned int i = 0;i<tailleListe;i++)
+	{
+		delete lesTrajets[i];
+	}
 	delete [] lesTrajets;
 }
 
@@ -133,7 +140,6 @@ void Catalogue::Run()
 				cin>>villeArr;
 				cin>>moyenTransport;
 				this->Ajouter(villeDep,villeArr,moyenTransport);
-				cout << "test" << endl;
 				break;
 				
 			case 2:

@@ -78,7 +78,7 @@ public:
 
 //------------------------------------------------------------------ PRIVE
 
-protected:
+//protected:
 //----------------------------------------------------- Méthodes protégées
 
     void Ajouter (const char *villeDep, const char *villeArr, const char *moyenTransport);

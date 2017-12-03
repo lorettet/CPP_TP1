@@ -25,7 +25,7 @@ using namespace std;
 //----------------------------------------------------- Méthodes publiques
 void TrajetCompose::Afficher() const
 {
-	for(int i = 0; i<nbTrajets-1; i++)
+	for(unsigned int i = 0; i<nbTrajets-1; i++)
 	{
 		listeTrajets[i]->Afficher();
 		cout << " - ";
@@ -43,16 +43,29 @@ const char* TrajetCompose::getVilleDepart() const
 	return listeTrajets[0]->getVilleDepart();
 } 
 
+TrajetCompose* TrajetCompose::Copy() const
+{
+#ifdef MAP
+    cout << "Appel au constructeur de copie virtuel <TrajetCompose>" << endl;
+#endif
+	Trajet** lesTrajets = new Trajet*[nbTrajets];
+	for(unsigned int i = 0; i<nbTrajets; i++)
+	{
+		lesTrajets[i] = listeTrajets[i]->Copy();
+	}
+	return new TrajetCompose(lesTrajets,nbTrajets);
+} 
+
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nb ) : nbTrajets(nb)
 {
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose>" << endl;
 #endif
-	Trajet** listeTrajets = new Trajet*[nb];
+	listeTrajets = new Trajet*[nb];
 	for(unsigned int i = 0; i < nb; i++)
 	{
-		listeTrajets[i] = trajets[i];
+		listeTrajets[i] = trajets[i]->Copy();
 	}
 } // ------ Fin de TrajetCompose
 
@@ -62,7 +75,7 @@ TrajetCompose::~TrajetCompose ( )
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetCompose>" << endl;
 #endif
-	for(int i = 0; i<nbTrajets; i++)
+	for(unsigned int i = 0; i<nbTrajets; i++)
 	{
 		delete listeTrajets[i];
 	}
@@ -70,7 +83,7 @@ TrajetCompose::~TrajetCompose ( )
 } //----- Fin de ~TrajetCompose
 
 
-//------------------------------------------------------------------ PRIVE
+//------------------------------------------------------------------ PROTECTED
 
 //----------------------------------------------------- Méthodes protégées
 

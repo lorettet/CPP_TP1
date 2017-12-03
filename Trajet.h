@@ -31,6 +31,8 @@ class Trajet
 
 public:
 //----------------------------------------------------- Méthodes publiques
+
+
     virtual void Afficher() const = 0;
     // Mode d'emploi : Affiche les caractéristique du trajet
     //
@@ -48,12 +50,25 @@ public:
     //
     // Contrat :
     //
+    
+    virtual Trajet* Copy() const = 0;
+    // Mode d'emploi : Renvoie une copie du trajet
+    //
+    // Contrat : 
+    //
 
-    virtual ~Trajet(){}
-    // Mode d'emploie : détruit le trajet
+//-------------------------------------------- Constructeurs - destructeur
+    
+    virtual ~Trajet ( ){}
+    // Mode d'emploi :
     //
     // Contrat :
     //
+
+//----------------------------------------------------------------- PROTECTED
+
+protected:
+//----------------------------------------------------- Méthodes protégées
 
 };
 

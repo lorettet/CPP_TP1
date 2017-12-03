@@ -38,6 +38,16 @@ const char* TrajetSimple::getVilleDepart() const
 	return villeDepart;
 } 
 
+Trajet* TrajetSimple::Copy() const
+// Algorithme : 
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de copie virtuel de <TrajetSimple>" << endl;
+#endif
+	return new TrajetSimple(villeDepart,villeArrivee,moyenTransport);
+}
+
 //-------------------------------------------- Constructeurs - destructeur
 
 TrajetSimple::TrajetSimple(const char *villeDep, const char *villeArr, const char *moyenTransp)

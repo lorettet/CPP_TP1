@@ -48,6 +48,11 @@ public:
     // Contrat :
     //
 
+    TrajetCompose* Copy() const;
+    // Mode d'emploi : Renvoie une copie du TrajetCompose
+    // 
+    // Contrat :
+    //
 
 
 //-------------------------------------------- Constructeurs - destructeur
@@ -70,9 +75,10 @@ public:
 
 protected:
 //----------------------------------------------------- Méthodes protégées
+
 //----------------------------------------------------- Attributs protégés
 	Trajet** listeTrajets;
-	const int nbTrajets;
+	const unsigned int nbTrajets;
 };
 
 //-------------------------------- Autres définitions dépendantes de <TrajetCompose>
