@@ -6,7 +6,7 @@
     e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp) ------------
+//---------- Réalisation de la classe <TrajetSimple> (fichier TrajetSimple.cpp)
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -24,16 +24,22 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 void TrajetSimple::Afficher() const
+// Algorithe : 
+//
 {
 	cout << "De " << villeDepart << " à " << villeArrivee << " en " << moyenTransport << endl;
 }
 
 const char* TrajetSimple::getVilleArrivee() const
+// Algorithme : 
+//
 {
 	return villeArrivee;
 }
 
 const char* TrajetSimple::getVilleDepart() const
+// Algorithme : 
+//
 {
 	return villeDepart;
 } 

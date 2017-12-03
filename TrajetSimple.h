@@ -57,11 +57,6 @@ public:
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur
-    TrajetSimple ( const TrajetSimple & unTrajetSimple );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
 
     TrajetSimple(const char *villeDep, const char *villeArr, const char *moyenTransp);
     // Mode d'emploi : Construit un trajet simple

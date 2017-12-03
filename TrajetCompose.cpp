@@ -7,7 +7,7 @@
     e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <TrajetCompose> (fichier TrajetCompose.cpp) ------------
+//---------- Réalisation de la classe <TrajetCompose> (fichier TrajetCompose.cpp)
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -24,6 +24,8 @@ using namespace std;
 
 //----------------------------------------------------- Méthodes publiques
 void TrajetCompose::Afficher() const
+// Algorithme : 
+//
 {
 	for(unsigned int i = 0; i<nbTrajets-1; i++)
 	{
@@ -45,6 +47,8 @@ const char* TrajetCompose::getVilleDepart() const
 
 TrajetCompose* TrajetCompose::Copy() const
 {
+// Algorithme : Copie chaque trajet et renvoie un nouveau trajet composé.
+//
 #ifdef MAP
     cout << "Appel au constructeur de copie virtuel <TrajetCompose>" << endl;
 #endif
@@ -59,6 +63,8 @@ TrajetCompose* TrajetCompose::Copy() const
 //-------------------------------------------- Constructeurs - destructeur
 TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nb ) : nbTrajets(nb)
 {
+// Algorithme : 
+//
 #ifdef MAP
     cout << "Appel au constructeur de <TrajetCompose>" << endl;
 #endif
@@ -72,6 +78,8 @@ TrajetCompose::TrajetCompose ( Trajet** trajets, unsigned int nb ) : nbTrajets(n
 
 TrajetCompose::~TrajetCompose ( )
 {
+// Algorithme :
+//
 #ifdef MAP
     cout << "Appel au destructeur de <TrajetCompose>" << endl;
 #endif

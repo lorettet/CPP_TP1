@@ -58,9 +58,7 @@ public:
 //-------------------------------------------- Constructeurs - destructeur
     TrajetCompose( Trajet** trajets, unsigned int nb);
     // Mode d'emploi : Construit un trajet composé à partir de la liste de
-    // trajets passée en paramètre. Les trajets doivent IMPÉRATIVEMENT être 
-    // construit dans le tas. Ils ne doivent en aucun cas être delete, c'est
-    // le destructeur qui s'en chargera. Le tableau peux lui être static.
+    // trajets passée en paramètre. 
     // 
     // Contrat : Aucune vérification n'est effectué sur les données entrantes.
     //

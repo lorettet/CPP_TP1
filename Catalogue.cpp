@@ -7,7 +7,7 @@
     e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
-//---------- Réalisation de la classe <Catalogue> (fichier Catalogue.cpp) ------------
+//---------- Réalisation de la classe <Catalogue> (fichier Catalogue.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
@@ -25,17 +25,20 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
-void Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *moyenTransport)
+bool Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *moyenTransport)
 // Algorithme : Créer un objet TrajetSimple et l'ajoute dans la liste chainée
 //
 {
+	if(strcmp(villeDep,villeArr)==0)
+		return false;
+
 	Element* ptr = new Element;
 	ptr->trajet = new TrajetSimple(villeDep,villeArr,moyenTransport);
 	ptr->suivant = NULL;
 	if(listeTrajets.Tete == NULL)
 	{
 		listeTrajets.Tete = ptr;
-		return;
+		return true;
 	}
 	Element* ptrRech = listeTrajets.Tete;
 	while(ptrRech->suivant != NULL)
@@ -43,13 +46,19 @@ void Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *
 		ptrRech = ptrRech->suivant;
 	}
 	ptrRech->suivant = ptr;
+	return true;
 }
 
-void Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe)
+bool Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe)
 // Algorithme : pour chaque membre de la liste de UnTrajetSimple, créer l'objet TrajetSimple
 // associé. Créer l'objet TrajetCompose à partir des objets TrajetSimple et enfin l'ajoute à
 // la liste chainée.
 {
+	for(unsigned int i = 0;i<tailleListe;i++)
+	{
+		if(strcmp(listeTrajetSimple[i].villeDep,listeTrajetSimple[i].villeArr)==0)
+			return false;
+	}
 	
 	Trajet** lesTrajets = new Trajet*[tailleListe];
 	for(unsigned int i = 0;i<tailleListe;i++)
@@ -74,6 +83,7 @@ void Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int ta
 		delete lesTrajets[i];
 	}
 	delete [] lesTrajets;
+	return true;
 }
 
 void Catalogue::Afficher() const
@@ -102,15 +112,15 @@ void Catalogue::Run()
 //
 {
 	cout<<"\t\t\t Bonjour, bienvenue dans le GPS de Timtim."<<endl<<endl;
-	cout<<"###########################################################################################"<<endl;
-	cout<<"############               #    #   ######   ##               #   #   ######   ############"<<endl;
-	cout<<"############               #    #    ####    ##               #   #    ####    ############"<<endl;
-	cout<<"##################   #######    #   # ## #   ########   #######   #   # ## #   ############"<<endl;
-	cout<<"##################   #######    #   ##  ##   ########   #######   #   ##  ##   ############"<<endl;
-	cout<<"##################   #######    #   ######   ########   #######   #   ######   ############"<<endl;
-	cout<<"##################   #######    #   ######   ########   #######   #   ######   ############"<<endl;
-	cout<<"##################   #######    #   ######   ########   #######   #   ######   ############"<<endl;
-	cout<<"###########################################################################################"<<endl<<endl;
+	cout<<"#####################################################################################"<<endl;
+	cout<<"#########               #    #   ######   ##               #   #   ######   #########"<<endl;
+	cout<<"#########               #    #    ####    ##               #   #    ####    #########"<<endl;
+	cout<<"###############   #######    #   # ## #   ########   #######   #   # ## #   #########"<<endl;
+	cout<<"###############   #######    #   ##  ##   ########   #######   #   ##  ##   #########"<<endl;
+	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
+	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
+	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
+	cout<<"#####################################################################################"<<endl<<endl;
 		
 	char villeDep[TAILLE_BUFFER_CLAVIER];
 	char villeArr[TAILLE_BUFFER_CLAVIER];
@@ -121,7 +131,7 @@ void Catalogue::Run()
 		cout<<"\t\t\t\tVoici la liste de commandes: "<<endl<<endl;
 		cout<<"\t\t\t\t 0 - Afficher la liste de trajets"<<endl;
 		cout<<"\t\t\t\t 1 - Entrer un trajet simple"<<endl;
-		cout<<"\t\t\t\t 2 - Entrer un trajet composée"<<endl;
+		cout<<"\t\t\t\t 2 - Entrer un trajet composé"<<endl;
 		cout<<"\t\t\t\t 3 - Rechercher un trajet"<<endl;
 		cout<<"\t\t\t\t 4 - Quitter l'application"<<endl<<endl;
 
@@ -137,7 +147,11 @@ void Catalogue::Run()
 				cin>>villeDep;
 				cin>>villeArr;
 				cin>>moyenTransport;
-				this->Ajouter(villeDep,villeArr,moyenTransport);
+				
+				if(Ajouter(villeDep,villeArr,moyenTransport))
+					cout << "Trajet ajouté avec succès!" << endl;
+				else
+					cout << "Erreur lors de l'ajout du trajet... :(" << endl;
 				break;
 				
 			case 2:
@@ -164,7 +178,11 @@ void Catalogue::Run()
 
 						strcpy(villeDep,villeArr);
 					}
-					this->Ajouter(liste,nbrTrajets);
+					if(Ajouter(liste,nbrTrajets))
+						cout << "Trajet ajouté avec succès!" << endl;
+					else
+						cout << "Erreur lors de l'ajout du trajet... :(" << endl;
+						
 					for(int i(0);i<nbrTrajets;i++)
 					{
 						delete[] liste[i].villeDep;

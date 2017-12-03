@@ -81,12 +81,13 @@ public:
 //protected:
 //----------------------------------------------------- Méthodes protégées
 
-    void Ajouter (const char *villeDep, const char *villeArr, const char *moyenTransport);
+    bool Ajouter (const char *villeDep, const char *villeArr, const char *moyenTransport);
     // Mode d'emploi : Construit et ajoute un trajet simple au catalogue
     // villeDep : la ville de départ
     // villeArr : la ville d'arrivée
     // moyenTransport : le moyen de transport utilisé
-    // Contrat : Aucune vérification n'est effectuée
+    // retour : booléen indiquant si le trajet à bien été ajouté.
+    // Contrat : Vérifie la cohérence des informations (villeDep!=villeArr)
     //
 
     void Afficher() const;
@@ -103,12 +104,15 @@ public:
     // Contrat :
     //
 
-    void Ajouter( const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe);
+    bool Ajouter( const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe);
     // Mode d'emploi : Construit et ajoute un trajet composé au catalogue.
     // listeTrajetSimple : la liste des informations de chaque trajet simple
-    // à ajouter
+    // à ajouter.
     // tailleListe : la taille de cette liste
-    // Contrat : Aucune vérification n'est effectuée
+    // retour : booléen indiquant si le trajet a été ajouté.
+    // Contrat : Vérifie que pour chaque trajet simple, villeDep!=villeArr. 
+    // Ne vérifie pas que la ville d'arrivée d'un trajet, correspond à
+    // la ville de départ du prochain trajet.
     //
 
 //----------------------------------------------------- Attributs protégés
