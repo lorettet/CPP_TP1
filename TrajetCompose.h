@@ -19,7 +19,7 @@
 
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetCompose>
-// Représente un trajet composé d'autres trajets.
+// Représente un trajet composé d'un ou de plusieurs objets de type Trajet.
 //
 //------------------------------------------------------------------------
 
@@ -37,13 +37,13 @@ public:
     //
 
     const char* getVilleArrivee() const;
-    // Mode d'emploi : Renvoi la ville de départ.
+    // Mode d'emploi : Renvoie la ville de départ.
     //
     // Contrat :
     //
 
     const char* getVilleDepart() const;
-    // Mode d'emploi : Renvoi le terminus du trajet.
+    // Mode d'emploi : Renvoie le terminus du trajet.
     //
     // Contrat :
     //

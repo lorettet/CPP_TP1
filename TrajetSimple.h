@@ -30,26 +30,26 @@ class TrajetSimple : public Trajet
 public:
 //----------------------------------------------------- Méthodes publiques
     void Afficher() const;
-    // Mode d'emploi : Affiche la ville de départ,la ville d'arrivée et
+    // Mode d'emploi : Affiche la ville de départ,la ville d'arrivée
     // et le moyen de transport utilisé.
     //
     // Contrat :
     //
 
     const char* getVilleArrivee() const;
-    // Mode d'emploi : Renvoi la ville de départ.
+    // Mode d'emploi : Renvoie la ville de départ.
     //
     // Contrat :
     //
 
     const char* getVilleDepart() const;
-    // Mode d'emploi : Renvoi la ville d'arrivée.
+    // Mode d'emploi : Renvoie la ville d'arrivée.
     //
     // Contrat :
     //
    
     Trajet* Copy() const;
-    // Mode d'emploi : Renvoi une copie du TrajetSimple
+    // Mode d'emploi : Renvoie une copie du TrajetSimple
     //
     // Contrat :
     //
@@ -60,7 +60,9 @@ public:
 
     TrajetSimple(const char *villeDep, const char *villeArr, const char *moyenTransp);
     // Mode d'emploi : Construit un trajet simple
-    //
+    // villeDep : la ville de départ
+    // villeArr : la ville d'arrivée
+    // moyenTransp : le moyen de transport utilisé
     // Contrat : 
     //
 

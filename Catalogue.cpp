@@ -29,12 +29,16 @@ bool Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *
 // Algorithme : Créer un objet TrajetSimple et l'ajoute dans la liste chainée
 //
 {
+	//On vérifie la cohérence des données
 	if(strcmp(villeDep,villeArr)==0)
 		return false;
 
+	//On créé le nouvel élément de la liste chainée
 	Element* ptr = new Element;
 	ptr->trajet = new TrajetSimple(villeDep,villeArr,moyenTransport);
 	ptr->suivant = NULL;
+
+	//On l'ajoute
 	if(listeTrajets.Tete == NULL)
 	{
 		listeTrajets.Tete = ptr;
@@ -54,21 +58,26 @@ bool Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int ta
 // associé. Créer l'objet TrajetCompose à partir des objets TrajetSimple et enfin l'ajoute à
 // la liste chainée.
 {
+	//On vérifie la cohérence des données
 	for(unsigned int i = 0;i<tailleListe;i++)
 	{
 		if(strcmp(listeTrajetSimple[i].villeDep,listeTrajetSimple[i].villeArr)==0)
 			return false;
 	}
 	
+	//On créé la liste de TrajetSimple à ajouter
 	Trajet** lesTrajets = new Trajet*[tailleListe];
 	for(unsigned int i = 0;i<tailleListe;i++)
 	{
 		lesTrajets[i] = new TrajetSimple(listeTrajetSimple[i].villeDep,listeTrajetSimple[i].villeArr,listeTrajetSimple[i].moyenTransport);
 	}
+	//On créer le nouvel élément de la liste chainée
 	Element* elem = new Element;
 	elem->suivant = NULL;
 	elem->trajet = new TrajetCompose(lesTrajets,tailleListe);
 	Element* ptr = listeTrajets.Tete;
+
+	//On l'ajoute
 	if(ptr==NULL)
 	{
 		listeTrajets.Tete = elem;
@@ -95,13 +104,11 @@ void Catalogue::Afficher() const
 		cout << "Aucun trajet planifié" << endl;
 		return;
 	}
-	Element* ptr = listeTrajets.Tete;
 	int i = 1;
-	while(ptr!=NULL)
+	for(Element* ptr = listeTrajets.Tete; ptr!=NULL; ptr = ptr->suivant)
 	{
 		cout << "- Trajet " << i++ << " ------------------------------------------" << endl;
 		ptr->trajet->Afficher();
-		ptr = ptr->suivant;
 	}
 }
 
@@ -111,7 +118,7 @@ void Catalogue::Run()
 // pas l'application.
 //
 {
-	cout<<"\t\t\t Bonjour, bienvenue dans le GPS de Timtim."<<endl<<endl;
+	cout<<"\t\t\t Bonjour, bienvenue dans le GPS Timtim."<<endl<<endl;
 	cout<<"#####################################################################################"<<endl;
 	cout<<"#########               #    #   ######   ##               #   #   ######   #########"<<endl;
 	cout<<"#########               #    #    ####    ##               #   #    ####    #########"<<endl;
@@ -156,7 +163,7 @@ void Catalogue::Run()
 				
 			case 2:
 				{
-					cout<<"Veuillez rentrer le nombre de trajets simples avec leur moyen de transport"<<endl;
+					cout<<"Veuillez rentrer le nombre de trajets simples suivi de chaque escale avec leur moyen de transport"<<endl;
 					int nbrTrajets;
 					cin>> nbrTrajets;
 					UnTrajetSimple* liste = new UnTrajetSimple[nbrTrajets];
@@ -212,27 +219,25 @@ void Catalogue::Recherche (const char *villeDep, const char *villeArr) const
 // Algorithme : pour chaque trajet de la liste, on l'affiche uniquement si ses
 // villes de départ et d'arrivée correspondent aux paramètres.
 {
-	bool test=false;
-	Element *ptrRech=listeTrajets.Tete;
+	bool ok=false;
 	unsigned int compteur = 0;
-	while(ptrRech!=NULL)
+	for(Element *ptrRech=listeTrajets.Tete; ptrRech!=NULL; ptrRech=ptrRech->suivant)
 	{
 		if(strcmp(ptrRech->trajet->getVilleDepart(), villeDep)==0)
 		{
 			if(strcmp(ptrRech->trajet->getVilleArrivee(), villeArr)==0)
 			{
-				if(!test)
+				if(!ok)
 				{
 					cout<<"Liste des trajets proposés: "<<endl;
-					test=true;
+					ok=true;
 				}
 				cout << "- Trajet " << ++compteur << " ------------------------------------------" << endl;
 				ptrRech->trajet->Afficher();
 			}
 		}
-		ptrRech=ptrRech->suivant;
 	}
-	if(!test)
+	if(!ok)
 	{
 		cout<<"Aucun trajet ne correspond à votre recherche: "<<villeDep<<" -> "<< villeArr<<endl;
 	}

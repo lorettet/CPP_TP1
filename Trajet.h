@@ -34,7 +34,7 @@ public:
 
 
     virtual void Afficher() const = 0;
-    // Mode d'emploi : Affiche les caractéristique du trajet
+    // Mode d'emploi : Affiche les caractéristiques du trajet
     //
     // Contrat :
     //

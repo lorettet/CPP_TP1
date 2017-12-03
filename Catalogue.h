@@ -43,7 +43,7 @@ typedef struct
 //------------------------------------------------------------------------
 // Rôle de la classe <Catalogue>
 // Représente un ensemble de trajets, pouvant être agrandit, et intègre 
-// diverse foctionnalitées de recherche. Gère les interactions avec
+// diverse fonctionnalitées de recherche. Gère les interactions avec
 // l'utilisateur.
 //
 //------------------------------------------------------------------------
@@ -55,7 +55,7 @@ class Catalogue
 public:
 //----------------------------------------------------- Méthodes publiques
     void Run();
-    // Mode d'emploi : Lance le programme permettant à l'utiisateur
+    // Mode d'emploi : Lance le programme permettant à l'utilisateur
     // d'utiliser l'application par l'intermédiaire d'une petite
     // interface dans la console.
     //
@@ -78,7 +78,7 @@ public:
 
 //------------------------------------------------------------------ PRIVE
 
-//protected:
+protected:
 //----------------------------------------------------- Méthodes protégées
 
     bool Ajouter (const char *villeDep, const char *villeArr, const char *moyenTransport);
@@ -111,7 +111,7 @@ public:
     // tailleListe : la taille de cette liste
     // retour : booléen indiquant si le trajet a été ajouté.
     // Contrat : Vérifie que pour chaque trajet simple, villeDep!=villeArr. 
-    // Ne vérifie pas que la ville d'arrivée d'un trajet, correspond à
+    // Ne vérifie pas que la ville d'arrivée d'un trajet corresponde à
     // la ville de départ du prochain trajet.
     //
 
