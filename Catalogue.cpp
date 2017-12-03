@@ -1,17 +1,17 @@
 /*************************************************************************
-                           Catalogue  -  description
-                             -------------------
-    d√©but                : 13/11/2017
-    copyright            : (C) 2017 par Th√©o Lorette-Froidevaux
-			   Anatolii Gasiuk
-    e-mail               : theo.lorette-froidevaux@insa-lyon.fr
+Catalogue  -  description
+-------------------
+dÈbut                : 13/11/2017
+copyright            : (C) 2017 par ThÈo Lorette-Froidevaux
+Anatolii Gasiuk
+e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
-//---------- R√©alisation de la classe <Catalogue> (fichier Catalogue.cpp) --
+//---------- RÈalisation de la classe <Catalogue> (fichier Catalogue.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include syst√®me
+//-------------------------------------------------------- Include systËme
 using namespace std;
 #include <iostream>
 #include <cstring>
@@ -24,28 +24,24 @@ using namespace std;
 #define TAILLE_BUFFER_CLAVIER 20
 //----------------------------------------------------------------- PUBLIC
 
-//----------------------------------------------------- M√©thodes publiques
+//----------------------------------------------------- MÈthodes publiques
 bool Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *moyenTransport)
-// Algorithme : Cr√©er un objet TrajetSimple et l'ajoute dans la liste chain√©e
+// Algorithme : CrÈer un objet TrajetSimple et l'ajoute dans la liste chainÈe
 //
 {
-	//On v√©rifie la coh√©rence des donn√©es
-	if(strcmp(villeDep,villeArr)==0)
+	if (strcmp(villeDep, villeArr) == 0)
 		return false;
 
-	//On cr√©√© le nouvel √©l√©ment de la liste chain√©e
 	Element* ptr = new Element;
-	ptr->trajet = new TrajetSimple(villeDep,villeArr,moyenTransport);
+	ptr->trajet = new TrajetSimple(villeDep, villeArr, moyenTransport);
 	ptr->suivant = NULL;
-
-	//On l'ajoute
-	if(listeTrajets.Tete == NULL)
+	if (listeTrajets.Tete == NULL)
 	{
 		listeTrajets.Tete = ptr;
 		return true;
 	}
 	Element* ptrRech = listeTrajets.Tete;
-	while(ptrRech->suivant != NULL)
+	while (ptrRech->suivant != NULL)
 	{
 		ptrRech = ptrRech->suivant;
 	}
@@ -54,212 +50,318 @@ bool Catalogue::Ajouter(const char *villeDep, const char *villeArr, const char *
 }
 
 bool Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe)
-// Algorithme : pour chaque membre de la liste de UnTrajetSimple, cr√©er l'objet TrajetSimple
-// associ√©. Cr√©er l'objet TrajetCompose √† partir des objets TrajetSimple et enfin l'ajoute √†
-// la liste chain√©e.
+// Algorithme : pour chaque membre de la liste de UnTrajetSimple, crÈer l'objet TrajetSimple
+// associÈ. CrÈer l'objet TrajetCompose ‡ partir des objets TrajetSimple et enfin l'ajoute ‡
+// la liste chainÈe.
 {
-	//On v√©rifie la coh√©rence des donn√©es
-	for(unsigned int i = 0;i<tailleListe;i++)
+	for (unsigned int i = 0; i<tailleListe; i++)
 	{
-		if(strcmp(listeTrajetSimple[i].villeDep,listeTrajetSimple[i].villeArr)==0)
+		if (strcmp(listeTrajetSimple[i].villeDep, listeTrajetSimple[i].villeArr) == 0)
 			return false;
 	}
-	
-	//On cr√©√© la liste de TrajetSimple √† ajouter
+
 	Trajet** lesTrajets = new Trajet*[tailleListe];
-	for(unsigned int i = 0;i<tailleListe;i++)
+	for (unsigned int i = 0; i<tailleListe; i++)
 	{
-		lesTrajets[i] = new TrajetSimple(listeTrajetSimple[i].villeDep,listeTrajetSimple[i].villeArr,listeTrajetSimple[i].moyenTransport);
+		lesTrajets[i] = new TrajetSimple(listeTrajetSimple[i].villeDep, listeTrajetSimple[i].villeArr, listeTrajetSimple[i].moyenTransport);
 	}
-	//On cr√©er le nouvel √©l√©ment de la liste chain√©e
 	Element* elem = new Element;
 	elem->suivant = NULL;
-	elem->trajet = new TrajetCompose(lesTrajets,tailleListe);
+	elem->trajet = new TrajetCompose(lesTrajets, tailleListe);
 	Element* ptr = listeTrajets.Tete;
-
-	//On l'ajoute
-	if(ptr==NULL)
+	if (ptr == NULL)
 	{
 		listeTrajets.Tete = elem;
 	}
 	else {
-		while(ptr->suivant != NULL)
+		while (ptr->suivant != NULL)
 			ptr = ptr->suivant;
 		ptr->suivant = elem;
 	}
-	for(unsigned int i = 0;i<tailleListe;i++)
+	for (unsigned int i = 0; i<tailleListe; i++)
 	{
 		delete lesTrajets[i];
 	}
-	delete [] lesTrajets;
+	delete[] lesTrajets;
 	return true;
 }
 
 void Catalogue::Afficher() const
-// Algorithme : Pour chaque trajet de la liste chain√©e, affiche le trajet.
+// Algorithme : Pour chaque trajet de la liste chainÈe, affiche le trajet.
 //
 {
-	if(listeTrajets.Tete==NULL)
+	if (listeTrajets.Tete == NULL)
 	{
-		cout << "Aucun trajet planifi√©" << endl;
+		cout << "Aucun trajet planifiÈ" << endl;
 		return;
 	}
+	Element* ptr = listeTrajets.Tete;
 	int i = 1;
-	for(Element* ptr = listeTrajets.Tete; ptr!=NULL; ptr = ptr->suivant)
+	while (ptr != NULL)
 	{
 		cout << "- Trajet " << i++ << " ------------------------------------------" << endl;
 		ptr->trajet->Afficher();
+		ptr = ptr->suivant;
 	}
 }
 
+
+
 void Catalogue::Run()
-// Algorithme : Affiche la liste d'instructions possible, puis ex√©cute l'instruction en fonction
-// des donn√©es entr√©es par l'utilisateur. Se processus est r√©p√©t√© tant que l'utiisateur ne quitte
+// Algorithme : Affiche la liste d'instructions possible, puis exÈcute l'instruction en fonction
+// des donnÈes entrÈes par l'utilisateur. Se processus est rÈpÈtÈ tant que l'utiisateur ne quitte
 // pas l'application.
 //
 {
-	cout<<"\t\t\t Bonjour, bienvenue dans le GPS Timtim."<<endl<<endl;
-	cout<<"#####################################################################################"<<endl;
-	cout<<"#########               #    #   ######   ##               #   #   ######   #########"<<endl;
-	cout<<"#########               #    #    ####    ##               #   #    ####    #########"<<endl;
-	cout<<"###############   #######    #   # ## #   ########   #######   #   # ## #   #########"<<endl;
-	cout<<"###############   #######    #   ##  ##   ########   #######   #   ##  ##   #########"<<endl;
-	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
-	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
-	cout<<"###############   #######    #   ######   ########   #######   #   ######   #########"<<endl;
-	cout<<"#####################################################################################"<<endl<<endl;
-		
+	cout << "\t\t\t Bonjour, bienvenue dans le GPS de Timtim." << endl << endl;
+	cout << "#####################################################################################" << endl;
+	cout << "#########               #    #   ######   ##               #   #   ######   #########" << endl;
+	cout << "#########               #    #    ####    ##               #   #    ####    #########" << endl;
+	cout << "###############   #######    #   # ## #   ########   #######   #   # ## #   #########" << endl;
+	cout << "###############   #######    #   ##  ##   ########   #######   #   ##  ##   #########" << endl;
+	cout << "###############   #######    #   ######   ########   #######   #   ######   #########" << endl;
+	cout << "###############   #######    #   ######   ########   #######   #   ######   #########" << endl;
+	cout << "###############   #######    #   ######   ########   #######   #   ######   #########" << endl;
+	cout << "#####################################################################################" << endl << endl;
+
 	char villeDep[TAILLE_BUFFER_CLAVIER];
 	char villeArr[TAILLE_BUFFER_CLAVIER];
 	char moyenTransport[TAILLE_BUFFER_CLAVIER];
 	int commande;
 	while (true)
 	{
-		cout<<"\t\t\t\tVoici la liste de commandes: "<<endl<<endl;
-		cout<<"\t\t\t\t 0 - Afficher la liste de trajets"<<endl;
-		cout<<"\t\t\t\t 1 - Entrer un trajet simple"<<endl;
-		cout<<"\t\t\t\t 2 - Entrer un trajet compos√©"<<endl;
-		cout<<"\t\t\t\t 3 - Rechercher un trajet"<<endl;
-		cout<<"\t\t\t\t 4 - Quitter l'application"<<endl<<endl;
+		cout << "\t\t\t\tVoici la liste de commandes: " << endl << endl;
+		cout << "\t\t\t\t 0 - Afficher la liste de trajets" << endl;
+		cout << "\t\t\t\t 1 - Entrer un trajet simple" << endl;
+		cout << "\t\t\t\t 2 - Entrer un trajet composÈ" << endl;
+		cout << "\t\t\t\t 3 - Rechercher un trajet" << endl;
+		cout << "\t\t\t\t 4 - Recherche avancÈe de trajet" << endl << endl;
+		cout << "\t\t\t\t 5 - Quitter l'application" << endl << endl;
 
-		cin>>commande;
+		cin >> commande;
 		switch (commande)
 		{
-			case 0:
-				this->Afficher();
-				break;
-			
-			case 1:
-				cout<<"Veuillez entrer la ville de d√©part, la ville d'arriv√©e et le transport correspondant : "<<endl;
-				cin>>villeDep;
-				cin>>villeArr;
-				cin>>moyenTransport;
-				
-				if(Ajouter(villeDep,villeArr,moyenTransport))
-					cout << "Trajet ajout√© avec succ√®s!" << endl;
-				else
-					cout << "Erreur lors de l'ajout du trajet... :(" << endl;
-				break;
-				
-			case 2:
-				{
-					cout<<"Veuillez rentrer le nombre de trajets simples suivi de chaque escale avec leur moyen de transport"<<endl;
-					int nbrTrajets;
-					cin>> nbrTrajets;
-					UnTrajetSimple* liste = new UnTrajetSimple[nbrTrajets];
-					cin >> villeDep;
-					for(int i(0);i<nbrTrajets;i++)
-					{
-						cin>>villeArr;
-						cin>>moyenTransport;
-						
-						liste[i].villeDep = new char[20];
-						liste[i].villeArr = new char[20];
-						liste[i].moyenTransport = new char[20];
-						
-						strcpy(liste[i].villeDep,villeDep);
-						
-						strcpy(liste[i].villeArr,villeArr);
-						
-						strcpy(liste[i].moyenTransport,moyenTransport);
+		case 0:
+			this->Afficher();
+			break;
 
-						strcpy(villeDep,villeArr);
-					}
-					if(Ajouter(liste,nbrTrajets))
-						cout << "Trajet ajout√© avec succ√®s!" << endl;
-					else
-						cout << "Erreur lors de l'ajout du trajet... :(" << endl;
-						
-					for(int i(0);i<nbrTrajets;i++)
-					{
-						delete[] liste[i].villeDep;
-						delete[] liste[i].villeArr;
-						delete[] liste[i].moyenTransport;
-					}
-					delete [] liste;
-				}
-				break;
-				
-			case 3:
-				cout<<"Veuillez entrer la ville de d√©part et la ville d'arriv√©e : "<<endl;
-				
-				cin>>villeDep;
-				cin>>villeArr;
-				this->Recherche(villeDep, villeArr);
-				break;
-				
-			case 4:
-				return;
+		case 1:
+			cout << "Veuillez entrer la ville de dÈpart, la ville d'arrivÈe et le transport correspondant : " << endl;
+			cin >> villeDep;
+			cin >> villeArr;
+			cin >> moyenTransport;
+
+			if (Ajouter(villeDep, villeArr, moyenTransport))
+				cout << "Trajet ajoutÈ avec succËs!" << endl;
+			else
+				cout << "Erreur lors de l'ajout du trajet... :(" << endl;
+			break;
+
+		case 2:
+		{
+			cout << "Veuillez rentrer le nombre de trajets simples avec leur moyen de transport" << endl;
+			int nbrTrajets;
+			cin >> nbrTrajets;
+			UnTrajetSimple* liste = new UnTrajetSimple[nbrTrajets];
+			cin >> villeDep;
+			for (int i(0); i<nbrTrajets; i++)
+			{
+				cin >> villeArr;
+				cin >> moyenTransport;
+
+				liste[i].villeDep = new char[20];
+				liste[i].villeArr = new char[20];
+				liste[i].moyenTransport = new char[20];
+
+				strcpy(liste[i].villeDep, villeDep);
+
+				strcpy(liste[i].villeArr, villeArr);
+
+				strcpy(liste[i].moyenTransport, moyenTransport);
+
+				strcpy(villeDep, villeArr);
+			}
+			if (Ajouter(liste, nbrTrajets))
+				cout << "Trajet ajoutÈ avec succËs!" << endl;
+			else
+				cout << "Erreur lors de l'ajout du trajet... :(" << endl;
+
+			for (int i(0); i<nbrTrajets; i++)
+			{
+				delete[] liste[i].villeDep;
+				delete[] liste[i].villeArr;
+				delete[] liste[i].moyenTransport;
+			}
+			delete[] liste;
+		}
+		break;
+
+		case 3:
+			cout << "Veuillez entrer la ville de dÈpart et la ville d'arrivÈe : " << endl;
+
+			cin >> villeDep;
+			cin >> villeArr;
+			this->Recherche(villeDep, villeArr);
+			break;
+
+		case 4:
+			cout << "Veuillez entrer la ville de dÈpart et la ville d'arrivÈe : " << endl;
+			cin >> villeDep;
+			cin >> villeArr;
+			this->RechercheAvancee(villeDep, villeArr);
+			break;
+
+		case 5:
+			return;
 		}
 	}
-	
+
 }
 
-void Catalogue::Recherche (const char *villeDep, const char *villeArr) const
+void Catalogue::Recherche(const char *villeDep, const char *villeArr) const
 // Algorithme : pour chaque trajet de la liste, on l'affiche uniquement si ses
-// villes de d√©part et d'arriv√©e correspondent aux param√®tres.
+// villes de dÈpart et d'arrivÈe correspondent aux paramËtres.
 {
-	bool ok=false;
+	bool test = false;
+	Element *ptrRech = listeTrajets.Tete;
 	unsigned int compteur = 0;
-	for(Element *ptrRech=listeTrajets.Tete; ptrRech!=NULL; ptrRech=ptrRech->suivant)
+	while (ptrRech != NULL)
 	{
-		if(strcmp(ptrRech->trajet->getVilleDepart(), villeDep)==0)
+		if (strcmp(ptrRech->trajet->getVilleDepart(), villeDep) == 0)
 		{
-			if(strcmp(ptrRech->trajet->getVilleArrivee(), villeArr)==0)
+			if (strcmp(ptrRech->trajet->getVilleArrivee(), villeArr) == 0)
 			{
-				if(!ok)
+				if (!test)
 				{
-					cout<<"Liste des trajets propos√©s: "<<endl;
-					ok=true;
+					cout << "Liste des trajets proposÈs: " << endl;
+					test = true;
 				}
 				cout << "- Trajet " << ++compteur << " ------------------------------------------" << endl;
 				ptrRech->trajet->Afficher();
 			}
 		}
+		ptrRech = ptrRech->suivant;
 	}
-	if(!ok)
+	if (!test)
 	{
-		cout<<"Aucun trajet ne correspond √† votre recherche: "<<villeDep<<" -> "<< villeArr<<endl;
+		cout << "Aucun trajet ne correspond ‡ votre recherche: " << villeDep << " -> " << villeArr << endl;
 	}
 }
 
+void Catalogue::RechercheAvancee(const char*villeDep, const char*villeArr) const 
+// Algorithme : pour chaque trajet de la liste, on test si la ville de dÈpart correspond ‡ celle d'un trajet
+// on stocke le trajet trouvÈ dans une nouvelle liste de trajet et on reitere le procÈde pour la ville de 
+// depart de trajet
+//si avant la fin de la liste on arrive sur un trajet dont la ville de depart correspond ‡ ville voulu
+// on affiche la liste, sinon on la vide et on reitere.
+{
+	Element *ptr = listeTrajets.Tete;
+	Element *test = listeTrajets.Tete;
+	
+	int compteur = 0;
+	while (ptr!= NULL)	// on parcour la liste de trajet pour trouver le premier trajet avec ville de depart voulu
+	{
 
-Catalogue::Catalogue ( )
+		if (strcmp(ptr->trajet->getVilleDepart(), villeDep) == 0)
+		{
+
+
+			Element *newPtr = new Element;
+			Element *newTete;
+			test = listeTrajets.Tete;
+
+			newPtr->trajet = ptr->trajet;
+			newPtr->suivant = NULL;
+
+
+			newTete = newPtr;
+			
+			
+			while (strcmp(test->trajet->getVilleArrivee(), villeArr) !=0 ) // on parcourt toute la liste pour faire le lien ville depart= ville arrivÈ
+			{	
+
+				
+
+				test = test->suivant;
+				if (test == NULL) // si on arrive ‡ la fin sans resultat voulu, on efface la liste newPtr
+				{
+					Element* ptrParcourt = newTete;
+					while (ptrParcourt != NULL)
+					{
+						Element* tmp = ptrParcourt->suivant;
+						delete ptrParcourt;
+						ptrParcourt = tmp;
+
+					}
+					break;
+				}
+				
+				else
+					if (strcmp(test->trajet->getVilleDepart(), newPtr->trajet->getVilleArrivee()) == 0)
+					{
+						Element *elem=new Element;
+						elem->trajet = test->trajet;
+						elem->suivant = NULL;
+						newPtr->suivant = elem;
+						newPtr = newPtr->suivant;
+					
+					}
+
+			}
+			if (strcmp(newPtr->trajet->getVilleArrivee(), villeArr) == 0) // si le resultat est correct, on l'affiche
+			{
+				compteur++;
+
+				cout << "    Trajet  " <<compteur<<" :"<< endl;
+				newPtr = newTete;
+				while (newPtr!=NULL)
+				{
+					newPtr->trajet->Afficher();
+					newPtr = newPtr->suivant;
+				}
+
+				
+			}
+			Element* ptrParcourt = newTete;
+			while (ptrParcourt != NULL)
+			{
+				Element* tmp = ptrParcourt->suivant;
+				delete ptrParcourt;
+				ptrParcourt = tmp;
+
+			}
+			
+			
+		}
+		
+
+		ptr = ptr->suivant;
+	}
+	if (compteur == 0)
+	{
+		cout << "DÈsolÈ, votre recherche n'a pas donnÈ de resultat" << endl;
+	}
+
+
+
+}
+
+Catalogue::Catalogue()
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <Catalogue>" << endl;
+	cout << "Appel au constructeur de <Catalogue>" << endl;
 #endif
 	listeTrajets.Tete = NULL;
 } //----- Fin de Catalogue
 
 
-Catalogue::~Catalogue ( )
+Catalogue::~Catalogue()
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <Catalogue>" << endl;
+	cout << "Appel au destructeur de <Catalogue>" << endl;
 #endif
 	Element* ptr = listeTrajets.Tete;
-	while(ptr!=NULL)
+	while (ptr != NULL)
 	{
 		delete ptr->trajet;
 		Element* tmp = ptr;
@@ -269,7 +371,7 @@ Catalogue::~Catalogue ( )
 } //----- Fin de ~Catalogue
 
 
-//------------------------------------------------------------------ PRIVE
+  //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- M√©thodes prot√©g√©es
+  //----------------------------------------------------- MÈthodes protÈgÈes
 

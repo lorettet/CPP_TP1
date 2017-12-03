@@ -1,17 +1,17 @@
 /*************************************************************************
-                           Catalogue  -  RÃ©pertoire de trajets
-                             -------------------
-    dÃ©but                : 13/11/2017
-    copyright            : (C) 2017 par ThÃ©o Lorette-Froidevaux
-			   Anatolii Gasiuk
-    e-mail               : theo.lorette-froidevaux@insa-lyon.fr
+Catalogue  -  Répertoire de trajets
+-------------------
+début                : 13/11/2017
+copyright            : (C) 2017 par Théo Lorette-Froidevaux
+Anatolii Gasiuk
+e-mail               : theo.lorette-froidevaux@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <Catalogue> (fichier Catalogue.h) ----------------
 #if ! defined ( CATALOGUE_H )
 #define CATALOGUE_H
 
-//--------------------------------------------------- Interfaces utilisÃ©es
+//--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
@@ -25,101 +25,108 @@ typedef struct
 	char *moyenTransport;
 
 } UnTrajetSimple;
-// Regroupe les donnÃ©es nÃ©cessaires Ã  la crÃ©ation d'un trajet simple.
+// Regroupe les données nécessaires à la création d'un trajet simple.
 
 typedef struct Element
 {
 	Trajet *trajet;
 	Element *suivant;
 } Element;
-// ReprÃ©sente un Ã©lÃ©ment d'une liste chainÃ©e
+// Représente un élément d'une liste chainée
 
 typedef struct
 {
 	Element *Tete;
 } ListeChainee;
-// ReprÃ©sente le dÃ©but d'une liste chainÃ©e
+// Représente le début d'une liste chainée
 
 //------------------------------------------------------------------------
-// RÃ´le de la classe <Catalogue>
-// ReprÃ©sente un ensemble de trajets, pouvant Ãªtre agrandit, et intÃ¨gre 
-// diverse fonctionnalitÃ©es de recherche. GÃ¨re les interactions avec
+// Rôle de la classe <Catalogue>
+// Représente un ensemble de trajets, pouvant être agrandit, et intègre 
+// diverse foctionnalitées de recherche. Gère les interactions avec
 // l'utilisateur.
 //
 //------------------------------------------------------------------------
 
 class Catalogue
 {
-//----------------------------------------------------------------- PUBLIC
+	//----------------------------------------------------------------- PUBLIC
 
 public:
-//----------------------------------------------------- MÃ©thodes publiques
-    void Run();
-    // Mode d'emploi : Lance le programme permettant Ã  l'utilisateur
-    // d'utiliser l'application par l'intermÃ©diaire d'une petite
-    // interface dans la console.
-    //
-    // Contrat :
-    //
+	//----------------------------------------------------- Méthodes publiques
+	void Run();
+	// Mode d'emploi : Lance le programme permettant à l'utiisateur
+	// d'utiliser l'application par l'intermédiaire d'une petite
+	// interface dans la console.
+	//
+	// Contrat :
+	//
 
-//-------------------------------------------- Constructeurs - destructeur
-    Catalogue ( );
-    // Mode d'emploi : Construit un Catalogue vide
-    //
-    // Contrat :
-    //
+	//-------------------------------------------- Constructeurs - destructeur
+	Catalogue();
+	// Mode d'emploi : Construit un Catalogue vide
+	//
+	// Contrat :
+	//
 
-    virtual ~Catalogue ( );
-    // Mode d'emploi : dÃ©truit tous les trajets du catalogue puis se 
-    // dÃ©truit.
-    //
-    // Contrat :
-    //
+	virtual ~Catalogue();
+	// Mode d'emploi : détruit tous les trajets du catalogue puis se 
+	// détruit.
+	//
+	// Contrat :
+	//
 
-//------------------------------------------------------------------ PRIVE
+	//------------------------------------------------------------------ PRIVE
 
-protected:
-//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
+	//protected:
+	//----------------------------------------------------- Méthodes protégées
 
-    bool Ajouter (const char *villeDep, const char *villeArr, const char *moyenTransport);
-    // Mode d'emploi : Construit et ajoute un trajet simple au catalogue
-    // villeDep : la ville de dÃ©part
-    // villeArr : la ville d'arrivÃ©e
-    // moyenTransport : le moyen de transport utilisÃ©
-    // retour : boolÃ©en indiquant si le trajet Ã  bien Ã©tÃ© ajoutÃ©.
-    // Contrat : VÃ©rifie la cohÃ©rence des informations (villeDep!=villeArr)
-    //
+	bool Ajouter(const char *villeDep, const char *villeArr, const char *moyenTransport);
+	// Mode d'emploi : Construit et ajoute un trajet simple au catalogue
+	// villeDep : la ville de départ
+	// villeArr : la ville d'arrivée
+	// moyenTransport : le moyen de transport utilisé
+	// retour : booléen indiquant si le trajet à bien été ajouté.
+	// Contrat : Vérifie la cohérence des informations (villeDep!=villeArr)
+	//
 
-    void Afficher() const;
-    // Mode d'emploi : Affiche tous les trajets du catalogue
-    //
-    // Contrat :
-    //
+	void Afficher() const;
+	// Mode d'emploi : Affiche tous les trajets du catalogue
+	//
+	// Contrat :
+	//
 
-    void Recherche (const char *villeDep, const char *villeArr) const;
-    // Mode d'emploi : Recherche et affiche tous les trajets dont la ville
-    // de dÃ©part est villeDep et la ville d'arriver est villeArr.
-    // villeDep : la ville de dÃ©part dÃ©sirÃ©e
-    // villeArr : la ville d'arrivÃ©e dÃ©sirÃ©e 
-    // Contrat :
-    //
+	void RechercheAvancee(const char* villeDep, const char* villeArr) const;
+	// Mode d'emploi : Recherche tous les trajets pouvant correspondre 
+        // à l'itiniéraire demandé en combinant des trajets déjà existants.
+	//
+	// Contrat :
+	//
 
-    bool Ajouter( const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe);
-    // Mode d'emploi : Construit et ajoute un trajet composÃ© au catalogue.
-    // listeTrajetSimple : la liste des informations de chaque trajet simple
-    // Ã  ajouter.
-    // tailleListe : la taille de cette liste
-    // retour : boolÃ©en indiquant si le trajet a Ã©tÃ© ajoutÃ©.
-    // Contrat : VÃ©rifie que pour chaque trajet simple, villeDep!=villeArr. 
-    // Ne vÃ©rifie pas que la ville d'arrivÃ©e d'un trajet corresponde Ã 
-    // la ville de dÃ©part du prochain trajet.
-    //
+	void Recherche(const char *villeDep, const char *villeArr) const;
+	// Mode d'emploi : Recherche et affiche tous les trajets dont la ville
+	// de départ est villeDep et la ville d'arriver est villeArr.
+	// villeDep : la ville de départ désirée
+	// villeArr : la ville d'arrivée désirée 
+	// Contrat :
+	//
 
-//----------------------------------------------------- Attributs protÃ©gÃ©s
-    ListeChainee listeTrajets;
+	bool Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int tailleListe);
+	// Mode d'emploi : Construit et ajoute un trajet composé au catalogue.
+	// listeTrajetSimple : la liste des informations de chaque trajet simple
+	// à ajouter.
+	// tailleListe : la taille de cette liste
+	// retour : booléen indiquant si le trajet a été ajouté.
+	// Contrat : Vérifie que pour chaque trajet simple, villeDep!=villeArr. 
+	// Ne vérifie pas que la ville d'arrivée d'un trajet, correspond à
+	// la ville de départ du prochain trajet.
+	//
+
+	//----------------------------------------------------- Attributs protégés
+	ListeChainee listeTrajets;
 };
 
-//-------------------------------- Autres dÃ©finitions dÃ©pendantes de <Catalogue>
+//-------------------------------- Autres définitions dépendantes de <Catalogue>
 
 #endif // CATALOGUE_H
 
