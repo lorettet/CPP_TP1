@@ -59,8 +59,6 @@ void Catalogue::Ajouter(const UnTrajetSimple *listeTrajetSimple, unsigned int ta
 	Element* elem = new Element;
 	elem->suivant = NULL;
 	elem->trajet = new TrajetCompose(lesTrajets,tailleListe);
-	cout << "debut test"<<endl;
-	elem->trajet->Afficher();
 	Element* ptr = listeTrajets.Tete;
 	if(ptr==NULL)
 	{

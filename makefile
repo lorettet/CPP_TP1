@@ -1,19 +1,33 @@
-FLAGS = -ansi -pedantic  -Wall -std=c++11 -g -D MAP
+RM=rm
+COMP=g++
+EDL=g++
+RMFLAGS=-f
+COMPFLAGS = -ansi -pedantic  -Wall -std=c++11 -g
+DEBUG=yes
+EXE=Catalogue
 
-Catalogue: main.o Catalogue.o TrajetCompose.o TrajetSimple.o
-	g++ -o Catalogue main.o Catalogue.o TrajetCompose.o TrajetSimple.o 
+ifeq ($(DEBUG),yes)
+	DEFINE=-D MAP
+else
+	DEFINE=
+endif
+
+.PHONY=clean
+
+$(EXE): main.o Catalogue.o TrajetCompose.o TrajetSimple.o
+	$(EDL) -o $(EXE) main.o Catalogue.o TrajetCompose.o TrajetSimple.o 
 
 Catalogue.o: Catalogue.cpp Catalogue.h TrajetSimple.h TrajetCompose.h
-	g++ -c Catalogue.cpp $(FLAGS)
+	$(COMP) -c Catalogue.cpp $(COMPFLAGS) $(DEFINE)
 
 TrajetSimple.o: Trajet.h  TrajetSimple.h TrajetSimple.cpp
-	g++ -c TrajetSimple.cpp $(FLAGS)
+	$(COMP) -c TrajetSimple.cpp $(COMPFLAGS) $(DEFINE)
 
 TrajetCompose.o: Trajet.h  TrajetCompose.h TrajetCompose.cpp
-	g++ -c TrajetCompose.cpp $(FLAGS)
+	$(COMP) -c TrajetCompose.cpp $(COMPFLAGS) $(DEFINE)
 
 main.o: main.cpp Catalogue.h
-	g++ -c main.cpp $(FLAGS)
+	$(COMP) -c main.cpp $(COMPFLAGS)
 
 clean:
-	rm *.o Catalogue
+	$(RM) $(RMFLAGS) *.o $(EXE)
